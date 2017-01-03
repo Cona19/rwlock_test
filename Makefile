@@ -11,9 +11,9 @@ TARGET := bin/runner
 SRCEXT := cpp
 SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
-CFLAGS := -O3 -Wall
+CFLAGS := -O2 -Wall
 LIB := -lpthread -L lib
-INC := -I include
+INC := -I include -I
 
 $(TARGET): $(OBJECTS)
 	@echo " Linking..."
