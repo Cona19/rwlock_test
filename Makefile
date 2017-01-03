@@ -13,7 +13,7 @@ SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
 CFLAGS := -O2 -Wall
 LIB := -lpthread -L lib
-INC := -I include -I
+INC := -I include -I boost_1_63_0
 
 $(TARGET): $(OBJECTS)
 	@echo " Linking..."
