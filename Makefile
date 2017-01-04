@@ -11,8 +11,8 @@ TARGET := bin/runner
 SRCEXT := cpp
 SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
-CFLAGS := -Wall -O2
-LIB := -lpthread -L lib -lboost_system 
+CFLAGS := -Wall -O3
+LIB := -lpthread -L lib -lboost_system -lboost_thread
 INC := -I include -I boost_1_63_0
 
 $(TARGET): $(OBJECTS)

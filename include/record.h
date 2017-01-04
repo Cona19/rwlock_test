@@ -10,6 +10,8 @@ enum RWLockType{
 	PTHREAD_MUTEX,
     SIMPLE_RWLOCK,
 	BOOST_MUTEX,
+	BOOST_RWLOCK,
+    LEASE_RWLOCK,
     NUM_RWLOCK,
 };
 extern const char *lock_names[NUM_RWLOCK];

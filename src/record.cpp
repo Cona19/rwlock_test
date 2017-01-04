@@ -5,13 +5,17 @@
 #include "pthread_mutex.h"
 #include "simple_rwlock.h"
 #include "boost_mutex.h"
+#include "boost_rwlock.h"
+#include "lease_rwlock.h"
 
 const char *lock_names[NUM_RWLOCK] = {
 	"No RWLock",
 	"Pthread RWLock",
 	"Pthread Mutex",
 	"Simple RWLock",
-	"Boost Mutex"
+	"Boost Mutex",
+	"Boost RWLock",
+	"Lease RWLock"
 };
 
 void Record::initialize(data_t dat1, data_t dat2){
@@ -51,8 +55,14 @@ void Record::setLock(RWLockType type){
     case BOOST_MUTEX:
         this->rwlock = new BoostMutex();
         break;
+    case BOOST_RWLOCK:
+        this->rwlock = new BoostRWLock();
+        break;
     case SIMPLE_RWLOCK:
         this->rwlock = new SimpleRWLock();
+        break;
+    case LEASE_RWLOCK:
+        this->rwlock = new LeaseRWLock();
         break;
     default:
         this->rwlock = NULL;
