@@ -6,6 +6,7 @@ typedef unsigned long data_t;
 
 enum RWLockType{
     NO_RWLOCK = 0,
+	TICKET_MUTEX,
 	PTHREAD_RWLOCK,
 	PTHREAD_MUTEX,
     SIMPLE_RWLOCK,
