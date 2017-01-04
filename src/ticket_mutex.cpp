@@ -18,7 +18,6 @@ void TicketMutex::RLock(){
 	int my_sem;
 	my_sem = __sync_fetch_and_add(&acquire_sem, 1);
 	while(my_sem != release_sem){
-		if
 		yield();
 	}
 }
