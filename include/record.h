@@ -3,12 +3,15 @@
 #include "rwlock.h"
 
 typedef unsigned long data_t;
+
 enum RWLockType{
     NO_RWLOCK = 0,
-    PTHREAD_RWLOCK,
+	PTHREAD_RWLOCK,
     SIMPLE_RWLOCK,
-    NUM_RWLOCK
+	BOOST_MUTEX,
+    NUM_RWLOCK,
 };
+extern const char *lock_names[NUM_RWLOCK];
 
 class Record{
 private:

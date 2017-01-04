@@ -48,40 +48,49 @@ void initRecord(Record *rec, RWLockType rwlock_type){
     rec->initialize(tmp, tmp);
 }
 
-acc_timer_t runCase(){
+acc_timer_t runCase(int num_rthd, int num_wthd){
 	int i;
-    unsigned long r_result[RTHD_NUM];
-    unsigned long w_result[WTHD_NUM];
+    unsigned long *r_result = new unsigned long[num_rthd];
+    unsigned long *w_result = new unsigned long[num_wthd];
 	unsigned long tot_r_result;
-	pthread_t rthd[RTHD_NUM];
-	pthread_t wthd[WTHD_NUM];
+	pthread_t *rthd = new pthread_t[num_rthd];
+	pthread_t *wthd = new pthread_t[num_wthd];
     acc_timer_t start_time, end_time, elapsed_time;
     start_sign = false;
-	for (i = 0; i < RTHD_NUM; i++){
+	for (i = 0; i < num_rthd; i++){
         r_result[i] = 0;
 		pthread_create(&rthd[i], NULL, rthdFunc, (void*)&r_result[i]);
     }
-    for (i = 0; i < WTHD_NUM; i++){
+    for (i = 0; i < num_wthd; i++){
         w_result[i] = 0;
 		pthread_create(&wthd[i], NULL, wthdFunc, (void*)&w_result[i]);
 	}
     start_time = getTime();
     start_sign = true;
 	tot_r_result = 0;
-	for (i = 0; i < RTHD_NUM; i++){
+	for (i = 0; i < num_rthd; i++){
 		if (pthread_join(rthd[i], NULL)){ 
 			cout<<"pthread_join ERROR"<<endl;
         }
 		tot_r_result += r_result[i];
 	}
+	for (i = 0; i < num_wthd; i++){
+		if (pthread_join(wthd[i], NULL)){ 
+			cout<<"pthread_join ERROR"<<endl;
+        }
+	}
     end_time = getTime();
     elapsed_time = end_time - start_time;
 
 	cout<<tot_r_result<<endl;
+	delete [] r_result;
+	delete [] w_result;
+	delete [] rthd;
+	delete [] wthd;
 	return elapsed_time;
 }
 
-void run(){
+void run(int num_rthd, int num_wthd){
     int rwlock_type;
 	int i;
     acc_timer_t elapsed_time;
@@ -90,11 +99,13 @@ void run(){
         initRecord(&rec, (RWLockType)rwlock_type);
 		elapsed_time = 0;
 		for (i = 0; i < TEST_CNT; i++){
-			elapsed_time += runCase();
+			elapsed_time += runCase(num_rthd, num_wthd);
 		}
+		cout<<"ENDENDEND"<<endl;
 		results[rwlock_type] = elapsed_time/1000000.0/TEST_CNT;
     }
     for (rwlock_type = NO_RWLOCK; rwlock_type != NUM_RWLOCK; rwlock_type++){
-		cout<<results[rwlock_type]<<"ms"<<endl;
+		cout<<lock_names[rwlock_type]<<" : "<<results[rwlock_type]<<"ms"<<endl;
 	}
+	cout<<"Run end"<<endl;
 }

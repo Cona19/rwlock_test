@@ -5,7 +5,7 @@
 #ifdef YIELD_WAIT
 #define yield() pthread_yield()
 #else
-#define yield() 0
+#define yield() 
 #endif
 
 SimpleRWLock::SimpleRWLock() : RWLock(){
