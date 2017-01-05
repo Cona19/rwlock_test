@@ -4,15 +4,15 @@ BoostMutex::BoostMutex() : RWLock(){
 }
 BoostMutex::~BoostMutex(){
 }
-void BoostMutex::RLock(){
+data_t BoostMutex::read(){
+	data_t tmp;
 	mutex.lock();
-}
-void BoostMutex::RUnlock(){
+	tmp = read_unsafe();
 	mutex.unlock();
+	return tmp;
 }
-void BoostMutex::WLock(){
+void BoostMutex::write(data_t newval){
 	mutex.lock();
-}
-void BoostMutex::WUnlock(){
+	write_unsafe(newval);
 	mutex.unlock();
 }

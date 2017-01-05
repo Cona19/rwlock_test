@@ -7,15 +7,15 @@ PthreadRWLock::PthreadRWLock() : RWLock(){
 PthreadRWLock::~PthreadRWLock(){
 	pthread_rwlock_destroy(&rwlock);
 }
-void PthreadRWLock::RLock(){
+data_t PthreadRWLock::read(){
+	data_t tmp;
 	pthread_rwlock_rdlock(&rwlock);
-}
-void PthreadRWLock::RUnlock(){
+	tmp = read_unsafe();
 	pthread_rwlock_unlock(&rwlock);
+	return tmp;
 }
-void PthreadRWLock::WLock(){
+void PthreadRWLock::write(data_t newval){
 	pthread_rwlock_wrlock(&rwlock);
-}
-void PthreadRWLock::WUnlock(){
+	write_unsafe(newval);
 	pthread_rwlock_unlock(&rwlock);
 }

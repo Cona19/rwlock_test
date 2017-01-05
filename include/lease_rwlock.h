@@ -3,15 +3,11 @@
 #include "rwlock.h"
 class LeaseRWLock : public RWLock{
 private:
-    int sem;
-
 public:
     LeaseRWLock();
     virtual ~LeaseRWLock();
-    virtual void RLock();
-    virtual void RUnlock();
-    virtual void WLock();
-    virtual void WUnlock();
+    virtual data_t read();
+    virtual void write(data_t newval);
 };
 
 #endif

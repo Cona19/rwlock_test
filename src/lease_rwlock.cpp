@@ -9,25 +9,14 @@
 #endif
 
 LeaseRWLock::LeaseRWLock() : RWLock(){
-	sem = 0;
 }
 LeaseRWLock::~LeaseRWLock(){
 }
-void LeaseRWLock::RLock(){
-	while(1){
-		while(this->sem < 0)
-			yield();
-		if (__sync_fetch_and_add(&sem, 1) >= 0)
-			break;
-	}
+data_t LeaseRWLock::read(){
+	data_t tmp;
+	tmp = read_unsafe();
+	return tmp;
 }
-void LeaseRWLock::RUnlock(){
-	__sync_fetch_and_sub(&sem, 1);
-}
-void LeaseRWLock::WLock(){
-	while(!__sync_bool_compare_and_swap(&sem, 0, -10000))
-		yield();
-}
-void LeaseRWLock::WUnlock(){
-	sem = 0;
+void LeaseRWLock::write(data_t newval){
+	write_unsafe(newval);
 }

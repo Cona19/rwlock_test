@@ -4,11 +4,18 @@ RWLock::RWLock(){
 }
 RWLock::~RWLock(){
 }
-void RWLock::RLock(){
+data_t RWLock::read(){
+	return 0;
 }
-void RWLock::RUnlock(){
+void RWLock::write(data_t newval){
 }
-void RWLock::WLock(){
+void RWLock::initialize(data_t dat1, data_t dat2){
+	rec.initialize(dat1, dat2);
 }
-void RWLock::WUnlock(){
+
+data_t RWLock::read_unsafe(){
+	return rec.read();
+}
+void RWLock::write_unsafe(data_t newval){
+	rec.write(newval);
 }

@@ -8,10 +8,8 @@ private:
 public:
     BoostRWLock();
     virtual ~BoostRWLock();
-    virtual void RLock();
-    virtual void RUnlock();
-    virtual void WLock();
-    virtual void WUnlock();
+    virtual data_t read();
+    virtual void write(data_t newval);
 };
 
 #endif

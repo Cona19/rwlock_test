@@ -14,23 +14,31 @@ TicketMutex::TicketMutex() : RWLock(){
 }
 TicketMutex::~TicketMutex(){
 }
-void TicketMutex::RLock(){
+data_t TicketMutex::read(){
+	data_t tmp;
 	int my_sem;
+	//Acquire mutex
 	my_sem = __sync_fetch_and_add(&acquire_sem, 1);
 	while(my_sem != release_sem){
 		yield();
 	}
-}
-void TicketMutex::RUnlock(){
+
+	tmp = read_unsafe();
+
+	//Release mutex
 	release_sem++;
+	return tmp;
 }
-void TicketMutex::WLock(){
+void TicketMutex::write(data_t newval){
 	int my_sem;
+	//Acquire mutex
 	my_sem = __sync_fetch_and_add(&acquire_sem, 1);
 	while(my_sem != release_sem){
 		yield();
 	}
-}
-void TicketMutex::WUnlock(){
+
+	write_unsafe(newval);
+
+	//Release mutex
 	release_sem++;
 }

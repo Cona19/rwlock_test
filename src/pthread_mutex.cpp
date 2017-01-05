@@ -8,15 +8,18 @@ PthreadMutex::PthreadMutex() : RWLock(){
 PthreadMutex::~PthreadMutex(){
 	pthread_mutex_destroy(&mutex);
 }
-void PthreadMutex::RLock(){
+data_t PthreadMutex::read(){
+	data_t tmp;
 	pthread_mutex_lock(&mutex);
-}
-void PthreadMutex::RUnlock(){
+
+	tmp = read_unsafe();
+
 	pthread_mutex_unlock(&mutex);
+
+	return tmp;
 }
-void PthreadMutex::WLock(){
+void PthreadMutex::write(data_t newval){
 	pthread_mutex_lock(&mutex);
-}
-void PthreadMutex::WUnlock(){
+	write_unsafe(newval);
 	pthread_mutex_unlock(&mutex);
 }

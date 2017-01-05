@@ -4,11 +4,9 @@ NoRWLock::NoRWLock() : RWLock(){
 }
 NoRWLock::~NoRWLock(){
 }
-void NoRWLock::RLock(){
+data_t NoRWLock::read(){
+	return read_unsafe();
 }
-void NoRWLock::RUnlock(){
-}
-void NoRWLock::WLock(){
-}
-void NoRWLock::WUnlock(){
+void NoRWLock::write(data_t newval){
+	write_unsafe(newval);
 }
